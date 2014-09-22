@@ -25,7 +25,7 @@ Image {
     // 3 states: normal, aboutToExplode, Exploded
 
     property int livingTime: 10000
-    property int hurringTime: 1800
+    property int hurringTime: 2800
 
     Timer {
         id: livingTimer
@@ -84,10 +84,12 @@ Image {
     }
 
     function reload() {
+        bomb.state = 'normal';
         hurringTimer.stop();
+        hurry.stop();
+        bomb.opacity = 1;
         randomizeTimer();
         livingTimer.restart();
-        bomb.state = 'normal';
         global.currentPoints += 1;
     }
 
