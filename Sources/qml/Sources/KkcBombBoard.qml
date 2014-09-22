@@ -28,6 +28,16 @@ KkcPage {
         anchors.top: board.top
         anchors.left: board.left
         anchors.margins: 20
+        radius: 10
+        smooth: true
+
+        Image {
+            source: "../../Pictures/Bomb.png"
+            anchors.verticalCenter: pointCounter.verticalCenter
+            width: 22; height: 22
+            x: 15
+        }
+
         Text {
             id: pointsDrawn
             text: global.currentPoints.toString()
@@ -50,6 +60,14 @@ KkcPage {
         anchors.top: board.top
         anchors.right: board.right
         anchors.margins: 20
+        radius: 10
+        smooth: true
+
+        Image {
+            source: "../../Pictures/BasicClock.png"
+            anchors.verticalCenter: globalTimer.verticalCenter
+        }
+
         Text {
             id: timerDrawn
             text: global.time.toString()

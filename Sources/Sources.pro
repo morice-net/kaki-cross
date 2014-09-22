@@ -27,4 +27,5 @@ OTHER_FILES += \
     ../Pictures/Exploded.png \
     ../Pictures/BasicBomb.png \
     ../Pictures/BasicBoard.png \
-    qml/Sources/KkcBomb.qml
+    qml/Sources/KkcBomb.qml \
+    ../Pictures/BasicClock.png
