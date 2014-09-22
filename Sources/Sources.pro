@@ -22,4 +22,9 @@ OTHER_FILES += \
     ../Pictures/KkcBackgroundLightFog.png \
     ../Pictures/KkcMainGears.png \
     ../Pictures/KkcMainTitle.png \
-    ../Pictures/KkcStartButton.png
+    ../Pictures/KkcStartButton.png \
+    ../Pictures/Bomb.png \
+    ../Pictures/Exploded.png \
+    ../Pictures/BasicBomb.png \
+    ../Pictures/BasicBoard.png \
+    qml/Sources/KkcBomb.qml

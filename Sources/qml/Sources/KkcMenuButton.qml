@@ -1,5 +1,21 @@
-import QtQuick 2.0
+/*
+    Copyright 2014 Jean-Nicolas Artaud <jeannicolasartaud@gmail.com>
 
+    This program is free software; you can redistribute it and/or
+    modify it under the terms of the GNU General Public License as
+    published by the Free Software Foundation; either version 3 of
+    the License, or (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
+import QtQuick 2.1
 
 Image {
     property string buttonText
@@ -9,6 +25,8 @@ Image {
     anchors.horizontalCenter: parent.horizontalCenter
     anchors.margins: 400
 
+    FontLoader { id: localFont; source: "../../Fonts/Candice.ttf" }
+
     Text {
         id: startText
         anchors.fill: parent
@@ -16,12 +34,8 @@ Image {
 
         color: "#ffffff"
         text: parent.buttonText
-        font.family: "Cantarell"
-        font.bold: true
-        font.italic: true
+        font.family: localFont.name
         font.pointSize: 36
-        font.letterSpacing: -1
-        styleColor: "#ffffff"
 
         verticalAlignment: Text.AlignVCenter
         horizontalAlignment: Text.AlignHCenter
