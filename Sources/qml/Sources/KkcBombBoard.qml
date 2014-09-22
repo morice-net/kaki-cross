@@ -24,10 +24,10 @@ KkcPage {
 
     Rectangle {
         id: pointCounter
-        width: 80; height: 80
+        width: 270; height: 80
         anchors.top: board.top
-        anchors.horizontalCenter: board.horizontalCenter
-        anchors.margins: 10
+        anchors.left: board.left
+        anchors.margins: 20
         Text {
             id: pointsDrawn
             text: global.currentPoints.toString()
@@ -46,10 +46,10 @@ KkcPage {
 
     Rectangle {
         id: globalTimer
-        width: 80; height: 80
-        anchors.bottom: board.bottom
-        anchors.horizontalCenter: board.horizontalCenter
-        anchors.margins: 10
+        width: 270; height: 80
+        anchors.top: board.top
+        anchors.right: board.right
+        anchors.margins: 20
         Text {
             id: timerDrawn
             text: global.time.toString()
@@ -64,7 +64,9 @@ KkcPage {
     Image {
         id: bombsBoard
         width: 400; height: 400
-        anchors.centerIn: board
+        anchors.margins: 90
+        anchors.horizontalCenter: board.horizontalCenter
+        anchors.bottom: board.bottom
         source: "../../Pictures/BasicBoard.png"
 
         Grid {
