@@ -17,80 +17,109 @@
 
 import QtQuick 2.1
 
-Image {
-    id: bomb
+Item {
+    id: kkcBomb
     width: 85; height: 85
-    source: "../../Pictures/BasicBomb.png"
 
-    // 3 states: normal, aboutToExplode, Exploded
+    property int hurringCounter: 4
 
-    property int livingTime: 10000
-    property int hurringTime: 2800
+    Image {
+        id: bomb
+        anchors.horizontalCenter: kkcBomb.horizontalCenter
+        anchors.bottom: kkcBomb.bottom
+        source: "../../Pictures/BasicBomb.png"
+
+        // 3 states: normal, aboutToExplode, Exploded
+
+        SequentialAnimation {
+            id: hurry
+            loops: Animation.Infinite
+            running: false
+            NumberAnimation { target: bomb; properties: "width,height"; to: 0.5; duration: 100 }
+            NumberAnimation { target: bomb; property: "opacity"; to: 1; duration: 100 }
+        }
+
+        MouseArea {
+            anchors.fill: parent
+
+            onClicked: {
+                console.log(bomb.state);
+                if (bomb.state == 'normal')
+                    explode();
+                else if (bomb.state == 'aboutToExplode')
+                    load();
+            }
+        }
+    }
+
+    Rectangle {
+        id:timerBackground
+        width: 25
+        height: 25
+        radius: 8
+        anchors.margins: 10
+        anchors.bottom: kkcBomb.bottom
+        anchors.right: kkcBomb.right
+        opacity: (hurringCounter <= 3 && hurringCounter >0) ? 1 : 0
+
+        FontLoader { id: localFont; source: "../../Fonts/Candice.ttf" }
+
+        Text {
+            id: startText
+            anchors.fill: parent
+
+            horizontalAlignment: Text.AlignHCenter
+            verticalAlignment: Text.AlignVCenter
+
+            color: "red"
+            text: kkcBomb.hurringCounter
+            font.family: localFont.name
+            font.pointSize: 20
+        }
+    }
+
+    AnimatedSprite {
+        id: explodeAnimation
+        width: 256
+        height: 256
+
+        anchors.horizontalCenter: kkcBomb.horizontalCenter
+        anchors.verticalCenter: kkcBomb.verticalCenter
+
+        source: "../../Pictures/KkcExplosion.png"
+        frameCount: 48
+        frameSync: true
+        frameWidth: 256
+        frameHeight: 256
+        frameDuration: 200
+        loops: 1
+        running: false
+        opacity: explodeAnimation.running
+    }
 
     Timer {
         id: livingTimer
-        interval: bomb.livingTime
-        running: bomb.state == 'normal'
+        running: false
         onTriggered: blink()
     }
 
     Timer {
         id: hurringTimer
-        interval: bomb.hurringTime
-        running: bomb.state == 'aboutToExplode'
-        onTriggered: explode()
-    }
-
-    SequentialAnimation {
-        id: hurry
-        loops: Animation.Infinite
-        running: bomb.state == 'aboutToExplode'
-        NumberAnimation { target: bomb; property: "opacity"; to: 0.5; duration: 100 }
-        NumberAnimation { target: bomb; property: "opacity"; to: 1; duration: 100 }
-    }
-
-    AnimatedSprite {
-        id: explosion
-        width: 64
-        height: 64
-        anchors.fill: parent
-        source: "../../Pictures/Exploded.png"
-        frameCount: 25
-        frameSync: true
-        frameWidth: 64
-        frameHeight: 64
-        frameDuration: 200
-        loops: 1
-        running: bomb.state == 'exploded'
-        opacity: bomb.state == 'exploded' ? 0.85 : 0
-    }
-
-    MouseArea {
-        anchors.fill: parent
-
-        onClicked: {
-            console.log(bomb.state);
-            if (bomb.state == 'normal')
-                explode();
-            else if (bomb.state == 'aboutToExplode')
-                reload();
+        interval: 1000
+        running: false
+        onTriggered: {
+            kkcBomb.hurringCounter -= 1;
+            if (kkcBomb.hurringCounter <= 0) explode();
+            else hurringTimer.start();
         }
     }
 
     function load() {
-        randomizeTimer();
+        livingTimer.interval = randomizeTimer(2.5,12);
         livingTimer.restart();
         bomb.state = 'normal';
-    }
-
-    function reload() {
-        bomb.state = 'normal';
-        hurringTimer.stop();
         hurry.stop();
-        bomb.opacity = 1;
-        randomizeTimer();
-        livingTimer.restart();
-        global.currentPoints += 1;
+        kkcBomb.hurringCounter = 4;
     }
 
     function blink() {
@@ -101,16 +130,20 @@ Image {
 
     function explode() {
         bomb.state = 'exploded';
-        bomb.source = "";
+        explodeAnimation.start();
+        bomb.width = 0;
+        bomb.height = 0;
     }
 
-    function randomizeTimer() {
-        var now = new Date();
-        var seed = now.getSeconds();
-        bomb.livingTime = (Math.floor(10000 * Math.random(seed)));
-    }
+        // in seconds
+        function randomizeTimer(fix,moving) {
+            var now = new Date();
+            var seed = now.getSeconds();
+            var returnTime = (Math.floor(moving * 1000 * Math.random(seed))) + fix * 1000;
+            return returnTime;
+        }
 
-    Component.onCompleted: {
-        load();
-    }
+        Component.onCompleted: {
+            load();
+        }
 }

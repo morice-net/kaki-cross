@@ -17,8 +17,10 @@
 
 import QtQuick 2.1
 
-KkcPage {
+Item {
     id: board
+    width: global.width
+    height: global.height
 
     FontLoader { id: localFont; source: "../../Fonts/Candice.ttf" }
 
@@ -91,7 +93,7 @@ KkcPage {
             spacing: 20
             Repeater {
                 model: 16
-                Bomb {
+                KkcBomb {
                 }
             }
         }

@@ -17,50 +17,50 @@
 
 import QtQuick 2.1
 
-Rectangle {    
+Item {
+    id: background
     width: global.width
     height: global.height
 
     Image {
-        id: background
-        width: 800
-        height: 800
-        source: "../../Pictures/KkcBackground.png"
+        id: darkFog
+        width: 820
+        height: 820
+        source: "../../Pictures/KkcBackgroundDarkFog.png"
+        opacity: 0
+        SequentialAnimation on x {
+            loops: Animation.Infinite
+            PropertyAnimation { from: background.x - 20; to: background.x; easing.type: Easing.OutCurve; duration: 2000 }
+            PropertyAnimation { from: background.x; to: background.x - 20; easing.type: Easing.OutCurve; duration: 1800 }
+        }
+        SequentialAnimation on y {
+            loops: Animation.Infinite
+            PropertyAnimation { from: background.y - 20; to: background.y; easing.type: Easing.OutCurve; duration: 1700 }
+            PropertyAnimation { from: background.y; to: background.y - 20; easing.type: Easing.OutCurve; duration: 2050 }
+        }
 
-        Image {
-            id: darkFog
-            width: 820
-            height: 820
-            source: "../../Pictures/KkcBackgroundDarkFog.png"
-            opacity: 0.95
-            SequentialAnimation on x {
-                loops: Animation.Infinite
-                PropertyAnimation { from: background.x - 20; to: background.x; easing.type: Easing.OutCurve; duration: 2000 }
-                PropertyAnimation { from: background.x; to: background.x - 20; easing.type: Easing.OutCurve; duration: 1800 }
-            }
-            SequentialAnimation on y {
-                loops: Animation.Infinite
-                PropertyAnimation { from: background.y - 20; to: background.y; easing.type: Easing.OutCurve; duration: 1700 }
-                PropertyAnimation { from: background.y; to: background.y - 20; easing.type: Easing.OutCurve; duration: 2050 }
-            }
+    }
+    Image {
+        id: lightFog
+        width: 820
+        height: 820
+        source: "../../Pictures/KkcBackgroundLightFog.png"
+        opacity: 0
+        SequentialAnimation on x {
+            loops: Animation.Infinite
+            PropertyAnimation { from: background.x; to: background.x - 20; easing.type: Easing.OutCurve; duration: 1800 }
+            PropertyAnimation { from: background.x - 20; to: background.x; easing.type: Easing.OutCurve; duration: 1800 }
         }
-        Image {
-            id: lightFog
-            width: 820
-            height: 820
-            source: "../../Pictures/KkcBackgroundLightFog.png"
-            opacity: 0.95
-            SequentialAnimation on x {
-                loops: Animation.Infinite
-                PropertyAnimation { from: background.x; to: background.x - 20; easing.type: Easing.OutCurve; duration: 1800 }
-                PropertyAnimation { from: background.x - 20; to: background.x; easing.type: Easing.OutCurve; duration: 1800 }
-            }
-            SequentialAnimation on y {
-                loops: Animation.Infinite
-                PropertyAnimation { from: background.y; to: background.y - 20; easing.type: Easing.OutCurve; duration: 1800 }
-                PropertyAnimation { from: background.y - 20; to: background.y; easing.type: Easing.OutCurve; duration: 1800 }
-            }
+        SequentialAnimation on y {
+            loops: Animation.Infinite
+            PropertyAnimation { from: background.y; to: background.y - 20; easing.type: Easing.OutCurve; duration: 1800 }
+            PropertyAnimation { from: background.y - 20; to: background.y; easing.type: Easing.OutCurve; duration: 1800 }
         }
+    }
+
+    Component.onCompleted: {
+        darkFog.opacity =0.95;
+        lightFog.opacity=0.95;
 
     }
 }

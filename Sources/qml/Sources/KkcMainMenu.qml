@@ -17,12 +17,15 @@
 
 import QtQuick 2.1
 
-KkcPage {
+Item {
     id: kkcPageHome
+    width: global.width
+    height: global.height
 
     KkcMenuButton {
         id: start
         buttonText: qsTr("Start !")
+        opacity:0
 
         MouseArea {
             id: startArea
@@ -35,6 +38,7 @@ KkcPage {
                 global.startGame();
             }
         }
+        Behavior on opacity { PropertyAnimation { duration: 2200 } }
     }
 
     Image {
@@ -43,9 +47,9 @@ KkcPage {
 
         anchors.horizontalCenter: parent.horizontalCenter
         height: 400
+        y: -400
 
-        PropertyAnimation on y { from: -400; to: -80; easing.type: Easing.OutElastic; duration: 1200 }
-        Behavior on y { PropertyAnimation { easing.type: Easing.InElastic; duration: 800 } }
+        Behavior on y { PropertyAnimation { easing.type: Easing.InOutElastic; duration: 2000 } }
     }
 
     Image {
@@ -61,17 +65,21 @@ KkcPage {
                 console.log("Settings called, gears pressed.");
                 title.y = -400;
                 start.opacity = 0;
+                kkcPageHome.destroyPage();
+                global.callSettings();
             }
         }
 
-        PropertyAnimation on opacity { from: 0; to: 1; duration: 1200 }
+        PropertyAnimation on opacity { from: 0; to: 1; duration: 2500 }
         Behavior on opacity { PropertyAnimation { duration: 800 } }
     }
 
-    Behavior on opacity { PropertyAnimation { duration: 800 } }
+    Component.onCompleted: {
+        title.y = -80;
+        start.opacity = 1
+    }
 
     Component.onDestruction: {
-        kkcPageHome.opacity = 0;
         console.log("KkcHomePage destroyed.")
     }
 

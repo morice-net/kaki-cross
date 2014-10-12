@@ -25,11 +25,43 @@ Rectangle {
     property int currentPoints: 0
     property int time: 0
 
-    Loader { id: pageLoader }
 
-    Component.onCompleted: { pageLoader.source = "KkcMainMenu.qml" }
+    KkcPage {
+        Loader { id: pageLoader }
+    }
+
+    Component.onCompleted: backMenu()
+
+    Timer {
+        id: pageUnloadingTimerToMenu
+        interval: 800
+        running:false
+        onTriggered: pageLoader.source = "KkcMainMenu.qml"
+    }
+
+    Timer {
+        id: pageUnloadingTimerToStart
+        interval: 2000
+        running:false
+        onTriggered: pageLoader.source = "KkcBombBoard.qml"
+    }
+
+    Timer {
+        id: pageUnloadingTimerToSettings
+        interval: 2000
+        running:false
+        onTriggered: pageLoader.source = "KkcSettings.qml"
+    }
+
+    function backMenu() {
+        pageUnloadingTimerToMenu.start();
+    }
 
     function startGame() {
-        pageLoader.source = "KkcBombBoard.qml"
+        pageUnloadingTimerToStart.start();
+    }
+
+    function callSettings() {
+        pageUnloadingTimerToSettings.start();
     }
 }
